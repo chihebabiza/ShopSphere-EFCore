@@ -1,8 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ShopSphere.Application.Features.Categories;
 using ShopSphere.Application.Features.Products;
-using ShopSphere.Application.IService;
-using ShopSphere.Application.Service;
 
 namespace ShopSphere.Application;
 
@@ -15,9 +13,6 @@ public static class DependencyInjection
 
         // Product feature
         services.AddScoped<IProductService, ProductService>();
-
-        // Legacy / existing services
-        services.AddScoped<IMovieService, MovieService>();
 
         return services;
     }
