@@ -6,7 +6,7 @@ namespace ShopSphere.Infrastructure.Persistence.Repositories;
 
 public class EfProductRepository : EfRepository<Product>, IProductRepository
 {
-    public EfProductRepository(ShopSphereDbContext context) : base(context)
+    public EfProductRepository(AppDbContext context) : base(context)
     {
     }
 

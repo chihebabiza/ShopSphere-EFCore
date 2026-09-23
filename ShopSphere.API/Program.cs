@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ShopSphere.Application;
 using ShopSphere.Infrastructure;
 using ShopSphere.Infrastructure.Persistence;
@@ -17,20 +18,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Automatically apply migrations and seed initial data
+// Apply migrations
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
-    try
-    {
-        var dbContext = services.GetRequiredService<ShopSphereDbContext>();
-        await DbInitializer.SeedAsync(dbContext);
-    }
-    catch (Exception ex)
-    {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while migrating or seeding the database.");
-    }
+    var db = scope.ServiceProvider
+        .GetRequiredService<AppDbContext>();
+
+    db.Database.Migrate();
 }
 
 // Configure the HTTP request pipeline.

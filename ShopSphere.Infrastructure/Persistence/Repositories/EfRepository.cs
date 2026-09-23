@@ -6,10 +6,10 @@ namespace ShopSphere.Infrastructure.Persistence.Repositories;
 
 public class EfRepository<T> : IGenericRepository<T> where T : BaseEntity
 {
-    protected readonly ShopSphereDbContext _context;
+    protected readonly AppDbContext _context;
     protected readonly DbSet<T> _dbSet;
 
-    public EfRepository(ShopSphereDbContext context)
+    public EfRepository(AppDbContext context)
     {
         _context = context;
         _dbSet = context.Set<T>();

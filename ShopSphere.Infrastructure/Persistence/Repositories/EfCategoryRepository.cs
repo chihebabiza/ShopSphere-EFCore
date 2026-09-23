@@ -6,7 +6,7 @@ namespace ShopSphere.Infrastructure.Persistence.Repositories;
 
 public class EfCategoryRepository : EfRepository<Category>, ICategoryRepository
 {
-    public EfCategoryRepository(ShopSphereDbContext context) : base(context)
+    public EfCategoryRepository(AppDbContext context) : base(context)
     {
     }
 

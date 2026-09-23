@@ -1,90 +1,40 @@
+using Microsoft.EntityFrameworkCore;
 using ShopSphere.Application.Features.Categories;
 using ShopSphere.Domain;
 
 namespace ShopSphere.Infrastructure.Persistence.Repositories;
 
-public class CategoryRepository : InMemoryRepository<Category>, ICategoryRepository
+public class CategoryRepository : EfRepository<Category>, ICategoryRepository
 {
-    public CategoryRepository()
+
+    public CategoryRepository(AppDbContext context)
+        : base(context)
     {
-        SeedInitialData();
     }
 
-    public Task<Category?> GetBySlugAsync(string slug)
+    public async Task<Category?> GetBySlugAsync(string slug)
     {
-        var category = _entities.Values.FirstOrDefault(c =>
-            string.Equals(c.Slug, slug, StringComparison.OrdinalIgnoreCase));
-        return Task.FromResult(category);
+        return await _context.Categories
+            .FirstOrDefaultAsync(c => c.Slug == slug);
     }
 
-    public Task<IReadOnlyList<Category>> GetSubCategoriesAsync(int parentCategoryId)
+    public async Task<IReadOnlyList<Category>> GetSubCategoriesAsync(
+        int parentCategoryId)
     {
-        IReadOnlyList<Category> list = _entities.Values
+        return await _context.Categories
             .Where(c => c.ParentCategoryId == parentCategoryId)
             .OrderBy(c => c.DisplayOrder)
-            .ToList();
-        return Task.FromResult(list);
+            .ToListAsync();
     }
 
-    public Task<bool> SlugExistsAsync(string slug, int? excludeId = null)
+    public async Task<bool> SlugExistsAsync(
+        string slug,
+        int? excludeId = null)
     {
-        var exists = _entities.Values.Any(c =>
-            string.Equals(c.Slug, slug, StringComparison.OrdinalIgnoreCase) &&
-            (!excludeId.HasValue || c.Id != excludeId.Value));
-        return Task.FromResult(exists);
+        return await _context.Categories
+            .AnyAsync(c =>
+                c.Slug == slug &&
+                (!excludeId.HasValue || c.Id != excludeId.Value));
     }
 
-    private void SeedInitialData()
-    {
-        var seededCategories = new List<Category>
-        {
-            new()
-            {
-                Id = 1,
-                Name = "Electronics",
-                Slug = "electronics",
-                Description = "Electronic gadgets, computers, and devices",
-                DisplayOrder = 1,
-                IsActive = true,
-                CreatedAtUtc = DateTime.UtcNow
-            },
-            new()
-            {
-                Id = 2,
-                Name = "Laptops & Computers",
-                Slug = "laptops-computers",
-                Description = "Workstation laptops, gaming PCs, and ultrabooks",
-                ParentCategoryId = 1,
-                DisplayOrder = 1,
-                IsActive = true,
-                CreatedAtUtc = DateTime.UtcNow
-            },
-            new()
-            {
-                Id = 3,
-                Name = "Audio & Headphones",
-                Slug = "audio-headphones",
-                Description = "Wireless earbuds, over-ear studio monitors, and soundbars",
-                ParentCategoryId = 1,
-                DisplayOrder = 2,
-                IsActive = true,
-                CreatedAtUtc = DateTime.UtcNow
-            },
-            new()
-            {
-                Id = 4,
-                Name = "Home & Kitchen",
-                Slug = "home-kitchen",
-                Description = "Smart home appliances and kitchen essentials",
-                DisplayOrder = 2,
-                IsActive = true,
-                CreatedAtUtc = DateTime.UtcNow
-            }
-        };
-
-        foreach (var category in seededCategories)
-        {
-            AddAsync(category).GetAwaiter().GetResult();
-        }
-    }
 }

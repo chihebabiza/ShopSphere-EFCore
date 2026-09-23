@@ -19,8 +19,8 @@ public static class DependencyInjection
         }
 
         // Register EF Core DbContext with SQL Server
-        services.AddDbContext<ShopSphereDbContext>(options =>
-            options.UseSqlServer(connectionString, b => b.MigrationsAssembly(typeof(ShopSphereDbContext).Assembly.FullName)));
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(connectionString, b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
 
         // Register EF Core Repositories
         services.AddScoped<ICategoryRepository, EfCategoryRepository>();

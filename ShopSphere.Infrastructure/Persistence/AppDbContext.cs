@@ -3,9 +3,9 @@ using ShopSphere.Domain;
 
 namespace ShopSphere.Infrastructure.Persistence;
 
-public class ShopSphereDbContext : DbContext
+public class AppDbContext : DbContext
 {
-    public ShopSphereDbContext(DbContextOptions<ShopSphereDbContext> options) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
 
@@ -17,6 +17,6 @@ public class ShopSphereDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // Apply all entity configurations automatically
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ShopSphereDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
 }
