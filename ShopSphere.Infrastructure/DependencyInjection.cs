@@ -23,8 +23,8 @@ public static class DependencyInjection
             options.UseSqlServer(connectionString, b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
 
         // Register EF Core Repositories
-        services.AddScoped<ICategoryRepository, EfCategoryRepository>();
-        services.AddScoped<IProductRepository, EfProductRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
 
         return services;
     }
