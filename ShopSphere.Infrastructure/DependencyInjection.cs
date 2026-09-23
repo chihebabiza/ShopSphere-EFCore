@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ShopSphere.Application.Features.Categories;
 using ShopSphere.Application.Features.Products;
+using ShopSphere.Application.Features.Carts;
 using ShopSphere.Infrastructure.Persistence;
 using ShopSphere.Infrastructure.Persistence.Repositories;
 
@@ -25,6 +26,7 @@ public static class DependencyInjection
         // Register EF Core Repositories
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<ICartRepository, CartRepository>();
 
         return services;
     }
