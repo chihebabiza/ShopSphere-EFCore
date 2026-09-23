@@ -1,4 +1,4 @@
-﻿namespace ShopSphere.Domain;
+namespace ShopSphere.Domain;
 
 public class Product : BaseEntity
 {
@@ -8,7 +8,7 @@ public class Product : BaseEntity
     public string? ShortDescription { get; set; }
     public string? Description { get; set; }
 
-    // Pricing (Always use decimal for currency)
+    // Pricing
     public decimal Price { get; set; }
     public decimal? CompareAtPrice { get; set; }
     public decimal? CostPrice { get; set; }
@@ -18,11 +18,11 @@ public class Product : BaseEntity
     public int LowStockThreshold { get; set; } = 5;
     public decimal? WeightKg { get; set; }
 
-    // Status flags
+    // Status
     public bool IsActive { get; set; } = true;
     public bool IsFeatured { get; set; } = false;
 
-    // Category Foreign Key & Navigation Property
+    // Foreign Key & Navigation Property
     public int CategoryId { get; set; }
-    public virtual Category Category { get; set; } = null!;
+    public Category? Category { get; set; }
 }

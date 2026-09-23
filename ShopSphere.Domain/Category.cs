@@ -1,4 +1,4 @@
-﻿namespace ShopSphere.Domain;
+namespace ShopSphere.Domain;
 
 public class Category : BaseEntity
 {
@@ -9,11 +9,11 @@ public class Category : BaseEntity
     public int DisplayOrder { get; set; } = 0;
     public bool IsActive { get; set; } = true;
 
-    // Self-referencing relationship for category hierarchies
+    // Hierarchy support
     public int? ParentCategoryId { get; set; }
-    public virtual Category? ParentCategory { get; set; }
-    public virtual ICollection<Category> SubCategories { get; set; } = new List<Category>();
+    public Category? ParentCategory { get; set; }
+    public List<Category> SubCategories { get; set; } = new();
 
-    // Navigation property for Products
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+    // Navigation property for products
+    public List<Product> Products { get; set; } = new();
 }

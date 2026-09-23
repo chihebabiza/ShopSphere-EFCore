@@ -1,20 +1,18 @@
-using ShopSphere.Application.IRepository;
-using ShopSphere.Application.IService;
-using ShopSphere.Application.Service;
-using ShopSphere.Infrastructure.Repository;
+using ShopSphere.Application;
+using ShopSphere.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Clean, scalable DI registrations via layer extensions
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices();
+
+// Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// Register the MovieRepository and MovieService with the dependency injection container
-builder.Services.AddScoped<IMovieRepository, MovieRepository>();
-builder.Services.AddScoped<IMovieService, MovieService>();
 
 var app = builder.Build();
 
